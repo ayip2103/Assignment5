@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="Assignment5">
+	<property name="src.dir" location="src"/>
+	<property name="build.dir" location="bin"/>
+	<property name="dist.dir" location="dist"/>
+	<property name="doc.dir" location="doc"/>
+	<property name="lib.dir" location="lib"/>
+	<property name="test.report.dir" location="testreport"/> 
+	
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="../../../.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+	<!-- Define the CLASSPATH -->
+	<path id="classpath">
+		<pathelement location="${lib.dir}/junit-3.8.1.jar"/>
+		<pathelement location="${build.dir}"/>
+	</path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+              	
+    <!-- Compiles the java code (including the usage of library for JUnit -->
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.dir}"/>
+    		<copy todir="${build.dir}/datafile">
+    			<fileset dir="${src.dir}/datafile"/>
+    		</copy>
+            <javac includeantruntime="false" destdir="${build.dir}" srcdir="${src.dir}">
+            	<classpath refid="classpath"/>
+            </javac>
+    </target>
+    
+	<!-- Run the JUnit Tests --> 
+		<!-- Output format could be xml or plain--> 
+		<target name="test" depends="compile"> 
+			<mkdir dir="${test.report.dir}"/>
+			<junit printsummary="on" fork="true" haltonfailure="true"> 
+				<classpath refid="classpath"/>
+		    	<test name="test.Assign5TestSuite" haltonfailure="no" todir="${test.report.dir}">
+		    		<formatter type="plain"/>
+		  		</test>
+			</junit> 
+		</target> 
+	
+	<!--Creates the deployable jar file  -->
+	<!--
+	<target name="jar" depends="compile">
+		<mkdir dir="${dist.dir}"/>
+		<jar basedir="${build.dir}" destfile="${dist.dir}\SimpleDatabaseSystem.jar">
+			<manifest>
+				<attribute name="Main-Class" value="test.Main"/>
+			</manifest>
+		</jar>
+	</target>
+		
+	<target name="run" depends="jar">
+       <java jar="dist/SimpleDatabaseSystem.jar" fork="true" failonerror="true">
+       </java>
+	</target>
+	-->
+	
+	<!-- Creates Javadoc -->
+		<target name="doc">
+			<mkdir dir="${doc.dir}"/>
+			<javadoc destdir="${doc.dir}" packagenames="src" sourcepath="${src.dir}">
+				<!-- Define which files / directory should get included, we include all -->
+				<classpath refid="classpath"/>
+				<fileset dir="${src.dir}">
+					<include name="simpledatabase/**"/>
+					<include name="test/**"/>
+					<exclude name="/datafile/**"/>
+				</fileset>
+			</javadoc>
+		</target>
+	
+	<!-- Deletes the existing build, docs and dist directory-->
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+		<delete dir="${doc.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete dir="${test.report.dir}"/>
+	</target>
+
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="Assign5Demo">
+        <java classname="Assignment5.Assign5Demo" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="CreateGUI">
+        <java classname="Assignment5.CreateGUI" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="Join">
+        <java classname="Assignment5.Join" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="Projection">
+        <java classname="Assignment5.Projection" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="Selection">
+        <java classname="Assignment5.Selection" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="Sort">
+        <java classname="Assignment5.Sort" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="Table">
+        <java classname="Assignment5.Table" failonerror="true" fork="yes">
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </java>
+    </target>
+    <target name="Assign5TestSuite">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="Assignment5.Assign5TestSuite" todir="${junit.output.dir}"/>
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </junit>
+    </target>
+    <target name="Assign5TestLevel1">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="Assignment5.Assign5TestLevel1" todir="${junit.output.dir}"/>
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </junit>
+    </target>
+    <target name="Assign5TestLevel2">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="Assignment5.Assign5TestLevel2" todir="${junit.output.dir}"/>
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </junit>
+    </target>
+    <target name="Assign5TestLevel5">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="Assignment5.Assign5TestLevel5" todir="${junit.output.dir}"/>
+            <classpath refid="SimpleDatabaseSystem.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>

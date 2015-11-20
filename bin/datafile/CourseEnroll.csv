@@ -1,0 +1,6 @@
+courseID,courseName,id
+String,String,int
+"COMP2021","Object-oriented Programming",3
+"COMP2021","Object-oriented Programming",2
+"COMP2322","Computer Networking",1
+"COMP2021","Object-oriented Programming",4
